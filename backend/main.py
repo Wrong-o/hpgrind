@@ -1,18 +1,20 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-class User(BaseModel):
-    email: str
-    password: str
+# Tillåt alla ursprung (React kan köra från en annan port)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # React körs oftast på port 3000
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.post("/api/login")
-async def login(user: User):
-    # Implement login logic here
-    return {"message": "Login successful", "user": user.email}
-
-@app.post("/api/signup")
-async def signup(user: User):
-    # Implement signup logic here
-    return {"message": "Signup successful", "user": user.email}
+@app.get("/get-question")
+def get_question():
+    question = "Vad är 2 + 2?"
+    answers = ["3", "4", "5", "6", "7"]
+    correct_answer = "4"
+    return {"question": question, "answers": answers, "correct_answer": correct_answer}

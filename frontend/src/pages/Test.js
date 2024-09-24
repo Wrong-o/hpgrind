@@ -1,23 +1,27 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
-const Home = () => {
-  const navigate = useNavigate();
+const Game = () => {
+  const [questionData, setQuestionData] = useState(null);
 
-  const handleGameClick = () => {
-    navigate('/game');
-  };
-  const handleHomeClick = () => {
-    navigate('/')
-  }
+  useEffect(() => {
+    fetch('http://localhost:8000/get-question')
+      .then(response => response.json())
+      .then(data => setQuestionData(data))
+      .catch(error => console.error('Error fetching question:', error));
+  }, []);
+
+  if (!questionData) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1>Welcome to the Home Page</h1>
-      <button onClick={handleGameClick}>Go to Game</button>
-      <button onClick={handleHomeClick}>Go to Home</button>
-    </div>
+      <h2>{questionData.question}</h2>
+
+      <button>{questionData.answers[0]}</button>
+      <button>{questionData.answers[1]}</button>
+      <button>{questionData.answers[2]}</button>
+      <button>{questionData.answers[3]}</button>
+      </div>
   );
 };
 
-export default Home;
+export default Game;
