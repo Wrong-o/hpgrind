@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Welcome to the Home Page</h1>
+      <h1>Time</h1>
       <Login />
       <button onClick={handleGameClick}>Go to Game</button>
       <button onClick={handleTestClick}>Go to Test</button> {/* New button */}
