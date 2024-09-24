@@ -1,0 +1,53 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: SSH into EC2 and update backend
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@<YOUR_EC2_IP> << EOF
+            cd /path/to/backend
+            git pull origin main
+            cd backend
+            sudo systemctl restart fastapi.service
+          EOF
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies and build frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      - name: Sync with S3 bucket
+        run: |
+          aws s3 sync ./frontend/build s3://your-s3-bucket-name --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
