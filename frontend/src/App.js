@@ -5,7 +5,7 @@ import Game from './pages/Game';
 import Test from './pages/Test';
 import Login from './components/Login';
 import Signup from './components/Signup';
-
+import Profile from './pages/Profile'
 
 function App() {
     return (
@@ -16,6 +16,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/game" element={<Game />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     );

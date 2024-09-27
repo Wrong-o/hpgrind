@@ -1,13 +1,15 @@
 import psycopg2
+import os
 
 # Database connection parameters
 db_config = {
-    'host': 'hpgrind-1.cx6mg8m6ifyp.eu-north-1.rds.amazonaws.com',
-    'port': '5432',               # Default PostgreSQL port
-    'dbname': 'postgres',
-    'user': 'postgresql',
-    'password': '7QVaPw2k}qU*UG'
+    'host': os.getenv('DB_HOST'),
+    'port': os.getenv('DB_PORT'),
+    'dbname': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD')
 }
+
 
 # Initialize connection as None
 connection = None
