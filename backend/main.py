@@ -38,5 +38,6 @@ async def submit_result(result: Result):
     print(f"Received result: {result}")
     return {"message": "Result received successfully"}
 
+
 # To run the FastAPI application, use:
 # uvicorn main:app --reload
