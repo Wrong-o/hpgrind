@@ -16,12 +16,17 @@ const Home = () => {
     navigate('/Login'); // Navigate to Login page
   };
 
+  const handleHeatmapClick = () => {
+    navigate('/Login'); // Navigate to Login page
+  };
+
   return (
     <div>
       <h1>Welcome to the Application</h1>
       <button onClick={handleGameClick}>Go to Game</button>
       <button onClick={handleRegisterClick}>Go to Register</button>
       <button onClick={handleLoginClick}>Go to Login</button>
+      <button onClick={handleHeatmapClick}>Show heatmap</button>
 
     </div>
   );
