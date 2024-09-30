@@ -1,10 +1,14 @@
+from dotenv import load_dotenv
 import os
 import psycopg2
-# Database connection parameters
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Retrieve database credentials from environment variables
 db_config = {
     'host': os.getenv('DB_HOST'),
-    'port': os.getenv('DB_PORT'),
+    'port': os.getenv('DB_PORT', '5432'),
     'dbname': os.getenv('DB_NAME'),
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PASSWORD')

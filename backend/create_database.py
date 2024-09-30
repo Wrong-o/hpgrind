@@ -1,5 +1,8 @@
 import psycopg2
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Database connection parameters
 db_config = {
@@ -20,7 +23,7 @@ try:
 
     # Create the users table if it doesn't exist
     create_table_query = """
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS user_data (
         id SERIAL PRIMARY KEY,
         username VARCHAR(50) NOT NULL,
         password VARCHAR(50) NOT NULL
@@ -31,18 +34,18 @@ try:
     connection.commit()
     print("Table created successfully")
 
-    # Insert data after table creation
-    insert_query = """
-    INSERT INTO users (username, password)
-    VALUES (%s, %s);
-    """
-    data_to_insert = [
-        ('user1', 'password1'),
-        ('user2', 'password2')
-    ]
-    cursor.executemany(insert_query, data_to_insert)
-    connection.commit()
-    print("Data inserted successfully")
+    # # Insert data after table creation
+    # insert_query = """
+    # INSERT INTO users (username, password)
+    # VALUES (%s, %s);
+    # """
+    # data_to_insert = [
+    #     ('user1', 'password1'),
+    #     ('user2', 'password2')
+    # ]
+    # cursor.executemany(insert_query, data_to_insert)
+    # connection.commit()
+    # print("Data inserted successfully")
 
 except Exception as error:
     print(f"Error: {error}")
