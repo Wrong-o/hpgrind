@@ -22,7 +22,7 @@ try:
     cursor = connection.cursor()
 
     # SQL query to select all rows from the 'users' table
-    select_query = "SELECT id, username, password FROM users;"
+    select_query = "SELECT x, y, incorrect_count, correct_count FROM answer_statistics;"
     cursor.execute(select_query)
 
     # Fetch all rows
@@ -30,7 +30,7 @@ try:
 
     # Print each row
     for row in rows:
-        print(f"ID: {row[0]}, Username: {row[1]}, Password: {row[2]}")
+        print(f"X: {row[0]}, Y: {row[1]}, incorrect_count: {row[2]}, correct_count: {row[3]}")
 
 except Exception as error:
     print(f"Error: {error}")

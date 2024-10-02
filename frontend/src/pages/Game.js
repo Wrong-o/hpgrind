@@ -1,47 +1,71 @@
-import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Game = () => {
     const navigate = useNavigate();
     const [questionData, setQuestionData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState(""); // Message to display feedback
+    const [message, setMessage] = useState("");
 
-    // Function to fetch the question from the FastAPI backend
     const fetchQuestion = async () => {
         try {
-            setLoading(true); // Set loading to true when fetching new question
-            const response = await axios.get('http://localhost:8000/get-question'); // Adjust the URL to your FastAPI server
+            setLoading(true);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-question`);
             setQuestionData(response.data);
-            setLoading(false); // Set loading to false once the data is fetched
-            setMessage(""); // Clear any previous message
+            setLoading(false);
+            setMessage("");
         } catch (error) {
             console.error("Error fetching question:", error);
             setLoading(false);
         }
     };
 
-    // Fetch the question when the component mounts
+    const submitAnswer = async (isCorrect) => {
+        try {
+            if (!questionData || !questionData.variables || questionData.variables.length < 2) {
+                console.error("Question data is incomplete");
+                return;
+            }
+
+            const [x, y] = questionData.variables;
+
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/submit-answer`, {
+                x: x,
+                y: y,
+                is_correct: isCorrect
+            });
+            console.log(response.data.message);
+        } catch (error) {
+            console.error("Error submitting answer:", error);
+            if (error.response) {
+                console.error("Response data:", error.response.data);
+                console.error("Response status:", error.response.status);
+            }
+        }
+    };
+
     useEffect(() => {
         fetchQuestion();
     }, []);
 
-    // Handle answer click
-    const handleAnswerClick = (selectedAnswer) => {
-        if (selectedAnswer === questionData.correct_answer) {
+    const handleAnswerClick = async (selectedAnswer) => {
+        const isCorrect = selectedAnswer === questionData.correct_answer;
+        if (isCorrect) {
             setMessage("Correct! Fetching a new question...");
         } else {
             setMessage("Incorrect! Try again...");
         }
 
+        // Submit the answer to the backend
+        await submitAnswer(isCorrect);
+
         // Fetch a new question after a short delay
         setTimeout(() => {
             fetchQuestion();
-        }, 0); // 1.5 seconds delay before fetching new question
+        }, 1500);
     };
 
-    // Handle going back to the home page
     const handleGameClick = () => {
         navigate('/');
     };
@@ -57,16 +81,16 @@ const Game = () => {
                         <p>{questionData.question}</p>
                         <ul>
                             {questionData.answers.map((answer, index) => (
-                                <li 
+                                <li
                                     key={index}
-                                    onClick={() => handleAnswerClick(answer)} // Make the answer clickable
+                                    onClick={() => handleAnswerClick(answer)}
                                     style={{ cursor: 'pointer', padding: '5px', border: '1px solid black', margin: '5px', display: 'inline-block' }}
                                 >
                                     {answer}
                                 </li>
                             ))}
                         </ul>
-                        <p>{message}</p> {/* Feedback message */}
+                        <p>{message}</p>
                     </>
                 )
             )}

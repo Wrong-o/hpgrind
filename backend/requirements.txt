@@ -1,0 +1,8 @@
+fastapi
+pydantic
+uvicorn[standard]  # Needed to run FastAPI with ASGI server
+sqlalchemy
+python-dotenv  # For dotenv
+matplotlib
+python-multipart  # If you handle file uploads in FastAPI
+aiofiles  # If you serve static files in FastAPI
