@@ -11,7 +11,8 @@ const Game = () => {
     const fetchQuestion = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-question`);
+            //const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-question`);
+            const response = await axios.get('http://13.60.217.156:8000/get-question');
             setQuestionData(response.data);
             setLoading(false);
             setMessage("");

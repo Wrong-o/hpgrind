@@ -26,7 +26,7 @@ db_config = {
 }
 
 # CORS setup
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000", "http://hpgrind.se.s3-website.eu-north-1.amazonaws.com").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
