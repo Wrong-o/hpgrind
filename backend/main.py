@@ -24,16 +24,26 @@ db_config = {
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PASSWORD')
 }
+# Använd den här igen för att göra det säkrare! Den andra tillåter allt.
+# # CORS setup
+# allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://hpgrind.se.s3-website.eu-north-1.amazonaws.com").split(",")
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=allowed_origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
-# CORS setup
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000", "http://hpgrind.se.s3-website.eu-north-1.amazonaws.com").split(",")
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["http://hpgrind.se.s3-website.eu-north-1.amazonaws.com"],  # Your S3 bucket URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
+   )
+
 
 # Database configuration (adjust as necessary)
 SQLALCHEMY_DATABASE_URL = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"

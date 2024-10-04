@@ -10,7 +10,7 @@ const Home = () => {
   const [showHeatmap, setShowHeatmap] = useState(false);
 
   const handleGameClick = () => {
-    navigate('/game'); // Navigate to Game page
+    navigate('/Gangertabell'); // Navigate to Game page
   };
 
   const handleRegisterClick = () => {
@@ -46,10 +46,10 @@ const Home = () => {
   return (
     <div>
       <h1>Welcome to the Application</h1>
-      <button onClick={handleGameClick}>Go to Game</button>
-      <button onClick={handleRegisterClick}>Go to Register</button>
-      <button onClick={handleLoginClick}>Go to Login</button>
-      <button onClick={handleHeatmapClick}>Show heatmap</button>
+      <button onClick={handleGameClick}>Gångertabell</button>
+      <button onClick={handleRegisterClick}>Registrera användare</button>
+      <button onClick={handleLoginClick}>Logga in</button>
+      <button onClick={handleHeatmapClick}>Visa heatmap</button>
 
       {showHeatmap && (
         <div style={{ marginTop: '20px' }}>
