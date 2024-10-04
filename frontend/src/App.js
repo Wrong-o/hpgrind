@@ -7,7 +7,8 @@ import Profile from './pages/Profile'
 import { Login, Signup } from './components/UserCredentials';
 
 function App() {
-    return (
+  return (
+    <div className="min-h-screen bg-black text-white">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -18,7 +19,8 @@ function App() {
           <Route path="/register" element={<Signup />} />
         </Routes>
       </Router>
-    );
-  }
+    </div>
+  );
+}
 
 export default App;
