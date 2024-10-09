@@ -65,7 +65,7 @@ const Home = () => {
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
-      <h1 className="text-4xl mb-4">Welcome to the Application</h1>
+      <h1 className="text-4xl mb-4">Rise and grind</h1>
       <p className="mb-8"><strong>{quote}</strong></p> {/* Visa inspirationscitat */}
       
       <div className="flex flex-col space-y-4"> {/* Flexbox för att centrera och ge utrymme mellan knapparna */}

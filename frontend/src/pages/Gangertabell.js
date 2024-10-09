@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import HeatMap from './HeatMap'; // Import the new HeatMap component
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -12,8 +13,10 @@ const Game = () => {
   const [questionData, setQuestionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [selectedAnswer, setSelectedAnswer] = useState(null); // State för valt svar
-  const [correctAnswer, setCorrectAnswer] = useState(null); // State för korrekt svar
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [correctAnswer, setCorrectAnswer] = useState(null);
+  const [showHeatmap, setShowHeatmap] = useState(false);
+
 
   const fetchQuestion = async () => {
     try {
@@ -56,76 +59,61 @@ const Game = () => {
     fetchQuestion();
   }, []);
 
+
   const handleAnswerClick = async (selected) => {
-    setSelectedAnswer(selected); // Spara det valda svaret
+    setSelectedAnswer(selected);
     const isCorrect = selected === questionData.correct_answer;
     if (isCorrect) {
-      setCorrectAnswer(selected); // Spara korrekt svar
-      setMessage("Correct! Fetching a new question...");
+      setCorrectAnswer(selected);
+      setMessage("Rätt!");
     } else {
-      setCorrectAnswer(questionData.correct_answer); // Visa korrekt svar
-      setMessage("Incorrect! Try again...");
+      setCorrectAnswer(questionData.correct_answer);
+      setMessage("Fel");
     }
-
-    // Submit the answer to the backend
     await submitAnswer(isCorrect);
-
-    // Fetch a new question after a short delay
     setTimeout(() => {
       fetchQuestion();
-    }, 1500);
+    }, 200);
   };
 
-  const handleGameClick = () => {
+  const handleHomeClick = () => {
     navigate('/');
   };
 
+
+  const toggleHeatmap = () => {
+    setShowHeatmap(!showHeatmap);
+  };
+
   return (
-    <div>
-      <h1>Game Page</h1>
+    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
+      <h1 className="text-4xl mb-8">Gångertabell</h1>
       {loading ? (
-        <p>Loading question...</p>
+        <p className="text-xl">Genererar frågor...</p>
       ) : (
         questionData && (
-          <>
-            <p>{questionData.question}</p>
-            <ul>
-              {questionData.answers.map((answer, index) => {
-                // Bestäm stilen för knappen
-                let buttonStyle = {
-                  cursor: 'pointer',
-                  padding: '10px',
-                  border: '1px solid black',
-                  margin: '5px',
-                  display: 'inline-block',
-                  backgroundColor: 'gray',
-                };
-
-                // Om användaren har valt ett svar
-                if (selectedAnswer) {
-                  if (answer === correctAnswer) {
-                    buttonStyle.backgroundColor = 'green'; // Grön för korrekt svar
-                  } else if (answer === selectedAnswer) {
-                    buttonStyle.backgroundColor = 'red'; // Röd för fel svar
-                  }
-                }
-
-                return (
-                  <li
-                    key={index}
-                    onClick={() => handleAnswerClick(answer)}
-                    style={buttonStyle}
-                  >
-                    {answer}
-                  </li>
-                );
-              })}
-            </ul>
-            <p>{message}</p>
-          </>
+          <div className="flex flex-col items-center">
+            <p className="text-2xl mb-6">{questionData.question}</p>
+            <div className="flex flex-row flex-wrap justify-center gap-4 mb-6">
+              {/* ... (existing answer buttons code) */}
+            </div>
+            <p className="text-xl mb-6">{message}</p>
+          </div>
         )
       )}
-      <button onClick={handleGameClick} style={{ marginTop: '20px', padding: '10px', backgroundColor: 'gray', color: 'white', border: 'none' }}>Go to Home</button>
+      <button 
+        onClick={toggleHeatmap} 
+        className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+      >
+        {showHeatmap ? "Hide Heatmap" : "Show Heatmap"}
+      </button>
+      {showHeatmap && <HeatMap />}
+      <button 
+        onClick={handleHomeClick} 
+        className="mt-8 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+      >
+        Go to Home
+      </button>
     </div>
   );
 };

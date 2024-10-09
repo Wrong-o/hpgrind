@@ -7,3 +7,5 @@ matplotlib
 python-multipart  # If you handle file uploads in FastAPI
 aiofiles  # If you serve static files in FastAPI
 psycopg2
+pandas
+itertools

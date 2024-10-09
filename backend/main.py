@@ -10,12 +10,16 @@ import numpy as np
 from sqlalchemy import select
 import os
 from dotenv import load_dotenv
-from heatmap_plotter import plot_heatmap
+from data_formatter import DataFormatter
 import traceback
-
+from inspiration import router as inspiration_router 
+from user_data_fetcher import UserHistoryFetcher
 
 load_dotenv()
 app = FastAPI()
+
+
+app.include_router(inspiration_router)
 
 db_config = {
     'host': os.getenv('DB_HOST'),
@@ -118,15 +122,28 @@ def get_question():
     return {"variables": [x, y], "question": question, "answers": answers, "correct_answer": correct_answer}
 
 
-# Assuming you have a function to get your database session
+@app.get("/get-user-heatmap")
 def get_answer_statistics():
+    # Initialize the data collector
+    collector = UserHistoryFetcher()
+    formatter = DataFormatter()
+
+# Connect to the database
+    collector.connect()
+    data = collector.fetch_answer_statistics()
+    formatted_data = formatter.heatmap_data_formatter(data = data)
+# Disconnect from the database
+    collector.disconnect()
+
     db = SessionLocal()
     try:
-        results = db.execute(select(AnswerStatistics)).scalars().all()
-        return results
+        #results = db.execute(select(AnswerStatistics)).scalars().all()
+        return formatted_data
     finally:
         db.close()
 
-# statistics = get_answer_statistics()
+
+answer = get_answer_statistics()
+print(answer)
 # plot_heatmap(statistics)
 
