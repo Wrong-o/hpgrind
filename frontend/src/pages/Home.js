@@ -13,7 +13,6 @@ const api = axios.create({
 
 const Home = () => {
   const navigate = useNavigate();
-  const [showHeatmap, setShowHeatmap] = useState(false);
   const [quote, setQuote] = useState(''); // State för inspiration
 
   // Hämta citat från API
@@ -42,27 +41,10 @@ const Home = () => {
   };
 
   const handleHeatmapClick = () => {
-    setShowHeatmap((prev) => !prev); // Toggle heatmap visibility
+    navigate('/Test'); // Navigate to Login page
   };
 
   // Sample data for the heatmap
-  const heatmapData = {
-    labels: ['A', 'B', 'C', 'D', 'E'], // X-axis labels
-    datasets: [
-      {
-        label: 'Heatmap',
-        data: [
-          { x: 'A', y: 'A', v: 10 },
-          { x: 'B', y: 'A', v: 20 },
-          { x: 'C', y: 'A', v: 30 },
-          { x: 'A', y: 'B', v: 40 },
-          // Add more data points as needed
-        ],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-    ],
-  };
-
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
       <h1 className="text-4xl mb-4">Rise and grind</h1>
@@ -83,32 +65,6 @@ const Home = () => {
         </button>
       </div>
 
-      {showHeatmap && (
-        <div className="mt-8">
-          <h2 className="text-2xl mb-4">Heatmap</h2>
-          <canvas id="heatmapCanvas"></canvas>
-          <script>
-            {`const ctx = document.getElementById('heatmapCanvas').getContext('2d');
-              new Chart(ctx, {
-                type: 'matrix',
-                data: ${JSON.stringify(heatmapData)},
-                options: {
-                  responsive: true,
-                  scales: {
-                    x: {
-                      type: 'category',
-                      labels: ${JSON.stringify(heatmapData.labels)},
-                    },
-                    y: {
-                      type: 'category',
-                      labels: ${JSON.stringify(heatmapData.labels)},
-                    },
-                  },
-                },
-              });`}
-          </script>
-        </div>
-      )}
     </div>
   );
 };

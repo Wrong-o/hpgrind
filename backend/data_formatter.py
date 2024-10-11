@@ -8,17 +8,22 @@ class DataFormatter:
         pass
 
     def heatmap_data_formatter(self, data: list[dict[str, any]]):
-        data = data
         df = pd.DataFrame(data, columns=["x", "y", "incorrect_count", "correct_count"])
-        df["correct_rate"] = df["correct_count"] / (df["incorrect_count"]+ df["correct_count"]) 
+        df["correct_rate"] = df["correct_count"] / (df["incorrect_count"] + df["correct_count"]) 
         df = df[["x", "y", "correct_rate"]]
+
+        # Generate all combinations of x and y
         all_combinations = pd.DataFrame(list(itertools.product(df['x'].unique(), df['y'].unique())), columns=['x', 'y'])
-        df_full = all_combinations.merge(df, on =['x', 'y'], how="left")
+        df_full = all_combinations.merge(df, on=['x', 'y'], how="left")
         df_full['correct_rate'] = df_full['correct_rate'].fillna('-')
-        
+
         df_sorted = df_full.sort_values(by=['x', 'y']).reset_index(drop=True)
 
-        return df_sorted
+        # Convert to JSON serializable format
+        df_sorted_json = df_sorted.to_dict(orient="records")
+
+        return df_sorted_json
+
     
     def plot_heatmap(statistics):
         x_values = [stat.x for stat in statistics]

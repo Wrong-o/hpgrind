@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 import psycopg2
+import traceback
 
 # Load environment variables from .env file
 load_dotenv()
@@ -22,18 +23,20 @@ try:
     cursor = connection.cursor()
 
     # SQL query to select all rows from the 'users' table
-    select_query = "SELECT x, y, incorrect_count, correct_count FROM answer_statistics;"
+    select_query = "SELECT x, incorrect_count, correct_count FROM user_gangertabell_history;"
     cursor.execute(select_query)
 
     # Fetch all rows
     rows = cursor.fetchall()
+    print(rows)
 
-    # Print each row
-    for row in rows:
-        print(f"X: {row[0]}, Y: {row[1]}, incorrect_count: {row[2]}, correct_count: {row[3]}")
+
+
 
 except Exception as error:
     print(f"Error: {error}")
+    traceback.print_exc()  # This will print the full error stack trace
+
 
 finally:
     if connection:

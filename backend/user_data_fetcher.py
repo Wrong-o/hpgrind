@@ -23,8 +23,7 @@ class UserHistoryFetcher:
         try:
             self.connection = psycopg2.connect(**self.db_config)
         except Exception as error:
-            print(f"Error connecting to the database: {error}")
-            self.connection = None
+            self.connection = f"Error connecting to the database: {error}"
     
     def disconnect(self):
         """Close the database connection."""
@@ -32,19 +31,17 @@ class UserHistoryFetcher:
             self.connection.close()
             print("PostgreSQL connection closed")
     
-    def fetch_answer_statistics(self):
-        """Fetch all rows from the 'answer_statistics' table."""
+    def fetch_answer_statistics(self, table: str):
+        """Fetch all rows from the 'user_gangertabell_history' table."""
         if not self.connection:
-            print("No connection established")
-            return None
+            return "No connection established"
         
         try:
             cursor = self.connection.cursor()
-            select_query = "SELECT x, y, incorrect_count, correct_count FROM answer_statistics;"
+            select_query = f"SELECT x, incorrect_count, correct_count FROM {table};"
             cursor.execute(select_query)
             rows = cursor.fetchall()
             cursor.close()
             return rows
         except Exception as error:
-            print(f"Error fetching data: {error}")
-            return None
+            return f"Error fetching data: {error}"

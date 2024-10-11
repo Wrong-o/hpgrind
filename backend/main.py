@@ -14,6 +14,7 @@ from data_formatter import DataFormatter
 import traceback
 from inspiration import router as inspiration_router 
 from user_data_fetcher import UserHistoryFetcher
+from question_generator import QuestionGenerator
 
 load_dotenv()
 app = FastAPI()
@@ -113,13 +114,17 @@ def submit_answer(submission: AnswerSubmission):
 
 
 @app.get("/get-question")
-def get_question():
-    x, y = random.randint(1, 10), random.randint(1, 10)
-    question = f"{x} * {y}?"
-    correct_answer = x * y
-    answers = [correct_answer, x * (y + 1), x * (y - 1), x * (y + 2), x * (y + 3)]
-    random.shuffle(answers)
-    return {"variables": [x, y], "question": question, "answers": answers, "correct_answer": correct_answer}
+def get_question(type: str):
+    question_generator = QuestionGenerator()
+    collector = UserHistoryFetcher()
+    collector.disconnect()
+    if type == "ggr_tbll":
+        collector.connect()
+        history = collector.fetch_answer_statistics(table = "user_gangertabell_history")
+        collector.disconnect()
+        question = question_generator.gangertabell(history= history)
+        
+        return question
 
 
 @app.get("/get-user-heatmap")
@@ -130,7 +135,7 @@ def get_answer_statistics():
 
 # Connect to the database
     collector.connect()
-    data = collector.fetch_answer_statistics()
+    data = collector.fetch_answer_statistics(table = "user_gangertabell_history")
     formatted_data = formatter.heatmap_data_formatter(data = data)
 # Disconnect from the database
     collector.disconnect()
@@ -142,8 +147,4 @@ def get_answer_statistics():
     finally:
         db.close()
 
-
-answer = get_answer_statistics()
-print(answer)
-# plot_heatmap(statistics)
 
