@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Gangertabell from './pages/Gangertabell';
 import Test from './pages/Test';
-import Profile from './pages/Profile'
+import Profile from './pages/Profile';
 import { Login, Signup } from './components/UserCredentials';
 
 function App() {

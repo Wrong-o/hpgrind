@@ -44,6 +44,10 @@ const Home = () => {
     navigate('/Test'); // Navigate to Login page
   };
 
+  const handelTestClick = () => {
+    navigate('/Test');
+  };
+
   // Sample data for the heatmap
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
@@ -62,6 +66,9 @@ const Home = () => {
         </button>
         <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" onClick={handleHeatmapClick}>
           Visa heatmap
+        </button>
+        <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" onClick={handelTestClick}>
+          Testyta
         </button>
       </div>
 

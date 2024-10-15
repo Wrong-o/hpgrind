@@ -1,0 +1,75 @@
+[
+    {
+        "id": 1,
+        "text": "Kvadratroten ur 4?",
+        "options": ["1", "2", "3", "4"],
+        "correct_answer": "2",
+        "category": "Kvadratrot",
+        "difficulty": "easy"
+      },
+    {
+      "id": 1,
+      "text": "Kvadratroten ur 9?",
+      "options": ["1", "2", "3", "4"],
+      "correct_answer": "3",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 2,
+      "text": "Kvadratroten ur 16?",
+      "options": ["2", "4", "8", "6"],
+      "correct_answer": "4",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 3,
+      "text": "Kvadratroten ur 25?",
+      "options": ["5", "10", "15", "20"],
+      "correct_answer": "5",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 4,
+      "text": "Kvadratroten ur 36?",
+      "options": ["6", "7", "8", "9"],
+      "correct_answer": "6",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 5,
+      "text": "Kvadratroten ur 49?",
+      "options": ["5", "6", "7", "8"],
+      "correct_answer": "7",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 6,
+      "text": "Kvadratroten ur 64?",
+      "options": ["6", "7", "8", "9"],
+      "correct_answer": "8",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 7,
+      "text": "Kvadratroten ur 81?",
+      "options": ["8", "9", "10", "11"],
+      "correct_answer": "9",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    },
+    {
+      "id": 8,
+      "text": "Kvadratroten ur 100?",
+      "options": ["8", "9", "10", "11"],
+      "correct_answer": "10",
+      "category": "Kvadratrot",
+      "difficulty": "easy"
+    }
+  ]
+  

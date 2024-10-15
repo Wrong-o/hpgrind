@@ -129,6 +129,7 @@ class QuestionGenerator:
                 correct_answer +=equation[-1]
 
 
+
         potential_wrong_answers = [
             correct_answer + 1,
             correct_answer + 2,
@@ -150,7 +151,7 @@ class QuestionGenerator:
             answers.append(str(base) + "^" + str(exponent))
         correct_answer = str(base) + "^" + str(correct_answer)
         random.shuffle(answers)
-        return {"variables": equation, "answers": answers, "correct_answer": correct_answer}
+        return {"variables": [base, equation], "answers": answers, "correct_answer": correct_answer}
     
     def prim_tal_spann(self, level: int):
         #Level setup: k
@@ -216,5 +217,23 @@ class QuestionGenerator:
         }
 
         percent = random.randrange(level_setup[level], 100, step= level_setup[level])
-        
-        return percent
+        number = random.randrange(20, 90)
+        while (number * percent / 100) % 1 != 0:
+            number += 1
+        correct_answer = int(number * percent / 100)
+
+        potential_wrong_answers = [
+            correct_answer + 1,
+            correct_answer + 2,
+            correct_answer - 1,
+            correct_answer - 2
+        ]
+
+        answers = set()
+        answers.add(correct_answer)
+        while len(answers) < 4:
+            answers.add(random.choice(potential_wrong_answers))
+        answers = list(answers)
+        random.shuffle(answers)
+
+        return {"variables": [percent, number], "answers": answers, "correct_answer": correct_answer} 

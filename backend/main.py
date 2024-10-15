@@ -114,32 +114,33 @@ def submit_answer(submission: AnswerSubmission):
 
 ##Account level logic needed in mdl_vrde and ptnser_mlt_dvsn
 @app.get("/get-question")
-def get_question(type: str):
+def get_question(type: str = ""):
     question_generator = QuestionGenerator()
     collector = UserHistoryFetcher()
-
+    if not type:
+        type = random.choice(["mdl_vrde", "ptnsr_mlt_dvsn", "prm_tl", "prcnt"])
     if type == "ggr_tbll":
         collector.connect()
         history = collector.fetch_answer_statistics(table = "user_gangertabell_history")
         collector.disconnect()
         question_data = question_generator.gangertabell(history= history)
-        return question_data
+        return question_data, type
     
     if type == "mdl_vrde":
         question_data = question_generator.medelvarde(level = 3)
-        return question_data
+        return question_data, type
     
     if type == "ptnsr_mlt_dvsn":
         question_data = question_generator.potens_multi_div(level = 4)
-        return question_data
+        return question_data, type
     
     if type == "prm_tl":
         question_data = question_generator.prim_tal_spann(level = 1)
-        return question_data
+        return question_data, type
     
     if type == "prcnt":
-        question_data = question_generator.procent(level= 4)
-        return question_data
+        question_data = question_generator.procent(level= 1)
+        return question_data, type
 
 
 @app.get("/get-user-heatmap")
